@@ -7,7 +7,7 @@ const Header: React.FC = () => {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Home', href: '/' },
+    { name: 'Home', href: '/Petshop' },
     { name: 'Browse Pets', href: '/browse' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },

@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-gray-300 hover:text-teal-400 transition-colors">
+                <Link to="/Petshop" className="text-gray-300 hover:text-teal-400 transition-colors">
                   Home
                 </Link>
               </li>
@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-teal-400" />
-                <span className="text-gray-300">New York, NY</span>
+                <span className="text-gray-300">Melamaiyur, TamilNadu 603202</span>
               </div>
             </div>
           </div>
