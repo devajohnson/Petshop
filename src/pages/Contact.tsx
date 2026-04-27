@@ -86,8 +86,8 @@ const Contact: React.FC = () => {
     {
       icon: MapPin,
       title: 'Address',
-      content: '123 Pet Love Street',
-      description: 'New York, NY 10001',
+      content: 'A6, GK Apartment,Bhavani Nagar',
+      description: 'Melamaiyur, TamilNadu 603202',
     },
     {
       icon: Clock,
@@ -255,15 +255,6 @@ const Contact: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Map Placeholder */}
-            <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center mb-8">
-              <div className="text-center">
-                <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-600">Interactive Map</p>
-                <p className="text-sm text-gray-500">123 Pet Love Street, New York, NY</p>
-              </div>
             </div>
 
             {/* FAQs */}
