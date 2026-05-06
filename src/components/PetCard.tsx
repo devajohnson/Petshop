@@ -1,21 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { MapPin, Heart, Calendar } from 'lucide-react';
 import { Pet } from '../types/Pet';
 
 interface PetCardProps {
   pet: Pet;
+  onSelectPet: (petId: string) => void;
 }
 
-const PetCard: React.FC<PetCardProps> = ({ pet }) => {
+const PetCard: React.FC<PetCardProps> = ({ pet, onSelectPet }) => {
   return (
-    <Link to={`/pet/${pet.id}`} className="group">
+    <div className="group">
       <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
         {/* Image */}
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-48 overflow-hidden cursor-pointer">
           <img
             src={pet.images[0]}
             alt={pet.name}
+            onClick={() => onSelectPet(pet.id)}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
           {pet.featured && (
@@ -31,7 +32,10 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
         {/* Content */}
         <div className="p-5">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors">
+            <h3 
+              className="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors cursor-pointer"
+              onClick={() => onSelectPet(pet.id)}
+            >
               {pet.name}
             </h3>
             <div className="flex items-center text-green-600 font-bold">
@@ -66,12 +70,15 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
             )}
           </div>
 
-          <button className="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors">
+          <button 
+            onClick={() => onSelectPet(pet.id)}
+            className="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+          >
             View Details
           </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

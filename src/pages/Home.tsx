@@ -1,10 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowRight, Heart, Shield, Users, Award } from 'lucide-react';
 import { pets } from '../data/pets';
 import PetCard from '../components/PetCard';
 
-const Home: React.FC = () => {
+type PageType = 'HOME' | 'BROWSE' | 'ABOUT' | 'CONTACT' | 'PET_DETAIL';
+
+interface HomeProps {
+  onNavigate: (page: PageType) => void;
+  onSelectPet: (petId: string) => void;
+}
+
+const Home: React.FC<HomeProps> = ({ onNavigate, onSelectPet }) => {
   const featuredPets = pets.filter((pet) => pet.featured).slice(0, 4);
 
   const features = [
@@ -52,19 +58,19 @@ const Home: React.FC = () => {
                 Connect with loving pets looking for their forever homes. Browse our carefully curated selection of dogs, cats, birds, and more from trusted breeders.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/browse"
+                <button
+                  onClick={() => onNavigate('BROWSE')}
                   className="inline-flex items-center justify-center px-8 py-4 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-200 hover:scale-105 shadow-lg"
                 >
                   Browse Pets
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-                <Link
-                  to="/about"
+                </button>
+                <button
+                  onClick={() => onNavigate('ABOUT')}
                   className="inline-flex items-center justify-center px-8 py-4 border-2 border-teal-600 text-teal-600 font-semibold rounded-xl hover:bg-teal-600 hover:text-white transition-all duration-200"
                 >
                   Learn More
-                </Link>
+                </button>
               </div>
             </div>
             <div className="relative">
@@ -108,9 +114,9 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {petTypeFilters.map((filter) => (
-              <Link
+              <button
                 key={filter.type}
-                to={`/browse?type=${filter.type}`}
+                onClick={() => onNavigate('BROWSE')}
                 className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
               >
                 <div className="aspect-square">
@@ -124,7 +130,7 @@ const Home: React.FC = () => {
                     <h3 className="text-xl font-bold text-white">{filter.label}</h3>
                   </div>
                 </div>
-              </Link>
+              </button>
             ))}
           </div>
         </div>
@@ -139,17 +145,17 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredPets.map((pet) => (
-              <PetCard key={pet.id} pet={pet} />
+              <PetCard key={pet.id} pet={pet} onSelectPet={onSelectPet} />
             ))}
           </div>
           <div className="text-center mt-12">
-            <Link
-              to="/browse"
+            <button
+              onClick={() => onNavigate('BROWSE')}
               className="inline-flex items-center px-8 py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors"
             >
               View All Pets
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -182,13 +188,13 @@ const Home: React.FC = () => {
           <p className="text-xl text-teal-100 mb-8">
             Browse our selection of loving pets waiting for their forever homes
           </p>
-          <Link
-            to="/browse"
+          <button
+            onClick={() => onNavigate('BROWSE')}
             className="inline-flex items-center px-8 py-4 bg-white text-teal-600 font-semibold rounded-xl hover:bg-gray-100 transition-colors shadow-lg"
           >
             Start Browsing
             <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
+          </button>
         </div>
       </section>
     </div>

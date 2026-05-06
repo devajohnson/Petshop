@@ -1,7 +1,13 @@
 import React from 'react';
 import { Heart, Shield, Users, Award, CheckCircle } from 'lucide-react';
 
-const About: React.FC = () => {
+type PageType = 'HOME' | 'BROWSE' | 'ABOUT' | 'CONTACT' | 'PET_DETAIL';
+
+interface AboutProps {
+  onNavigate: (page: PageType) => void;
+}
+
+const About: React.FC<AboutProps> = ({ onNavigate }) => {
   const values = [
     {
       icon: Heart,
@@ -190,18 +196,18 @@ const About: React.FC = () => {
             Join thousands of happy families who found their perfect companions through PawPals
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/browse"
+            <button
+              onClick={() => onNavigate('BROWSE')}
               className="inline-flex items-center px-8 py-3 bg-white text-teal-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
             >
               Browse Pets
-            </a>
-            <a
-              href="/contact"
+            </button>
+            <button
+              onClick={() => onNavigate('CONTACT')}
               className="inline-flex items-center px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-teal-600 transition-colors"
             >
               Contact Us
-            </a>
+            </button>
           </div>
         </div>
       </section>

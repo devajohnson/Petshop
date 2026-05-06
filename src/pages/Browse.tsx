@@ -1,29 +1,21 @@
 import React, { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { pets } from '../data/pets';
 import { FilterOptions } from '../types/Pet';
 import PetCard from '../components/PetCard';
 import FilterBar from '../components/FilterBar';
 
-const Browse: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+interface BrowseProps {
+  filters: FilterOptions;
+  onFilterChange: (filters: FilterOptions) => void;
+  onSelectPet: (petId: string) => void;
+}
+
+const Browse: React.FC<BrowseProps> = ({ filters, onFilterChange, onSelectPet }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const petsPerPage = 12;
-
-  const initialFilters: FilterOptions = {
-    type: searchParams.get('type') || 'all',
-    breed: '',
-    minAge: 0,
-    maxAge: 100,
-    minPrice: 0,
-    maxPrice: 10000,
-    location: '',
-  };
-
-  const [filters, setFilters] = useState<FilterOptions>(initialFilters);
 
   const filteredPets = useMemo(() => {
     return pets.filter((pet) => {
@@ -46,13 +38,21 @@ const Browse: React.FC = () => {
   const paginatedPets = filteredPets.slice(startIndex, startIndex + petsPerPage);
 
   const handleFilterChange = (newFilters: FilterOptions) => {
-    setFilters(newFilters);
+    onFilterChange(newFilters);
     setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
-    const clearedFilters = { ...initialFilters, type: 'all' };
-    setFilters(clearedFilters);
+    const clearedFilters: FilterOptions = {
+      type: 'all',
+      breed: '',
+      minAge: 0,
+      maxAge: 100,
+      minPrice: 0,
+      maxPrice: 10000,
+      location: '',
+    };
+    onFilterChange(clearedFilters);
     setSearchQuery('');
     setCurrentPage(1);
   };
@@ -110,7 +110,7 @@ const Browse: React.FC = () => {
         {paginatedPets.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {paginatedPets.map((pet) => (
-              <PetCard key={pet.id} pet={pet} />
+              <PetCard key={pet.id} pet={pet} onSelectPet={onSelectPet} />
             ))}
           </div>
         ) : (

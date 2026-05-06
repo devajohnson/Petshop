@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, 
   MapPin, 
@@ -12,12 +11,20 @@ import {
   XCircle,
   User,
   Weight,
-  Palette
+  Palette,
+  X as XCircleIcon
 } from 'lucide-react';
 import { pets } from '../data/pets';
 
-const PetDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+type PageType = 'HOME' | 'BROWSE' | 'ABOUT' | 'CONTACT' | 'PET_DETAIL';
+
+interface PetDetailProps {
+  petId: string | null;
+  onBack: () => void;
+  onNavigate: (page: PageType) => void;
+}
+
+const PetDetail: React.FC<PetDetailProps> = ({ petId, onBack, onNavigate }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,16 +34,19 @@ const PetDetail: React.FC = () => {
     message: '',
   });
 
-  const pet = pets.find((p) => p.id === id);
+  const pet = petId ? pets.find((p) => p.id === petId) : null;
 
   if (!pet) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Pet not found</h2>
-          <Link to="/browse" className="text-teal-600 hover:text-teal-700">
+          <button
+            onClick={onBack}
+            className="text-teal-600 hover:text-teal-700"
+          >
             Back to Browse
-          </Link>
+          </button>
         </div>
       </div>
     );
@@ -62,13 +72,13 @@ const PetDetail: React.FC = () => {
       {/* Breadcrumb */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link
-            to="/browse"
+          <button
+            onClick={onBack}
             className="inline-flex items-center text-teal-600 hover:text-teal-700 transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Browse
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -266,7 +276,7 @@ const PetDetail: React.FC = () => {
                 onClick={() => setShowContactForm(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
-                <XCircle className="h-6 w-6" />
+                <XCircleIcon className="h-6 w-6" />
               </button>
             </div>
             <form onSubmit={handleFormSubmit} className="space-y-4">

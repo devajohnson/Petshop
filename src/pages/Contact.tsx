@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
-const Contact: React.FC = () => {
+type PageType = 'HOME' | 'BROWSE' | 'ABOUT' | 'CONTACT' | 'PET_DETAIL';
+
+interface ContactProps {
+  onNavigate: (page: PageType) => void;
+}
+
+const Contact: React.FC<ContactProps> = ({ onNavigate }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
